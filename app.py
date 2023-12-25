@@ -21,19 +21,25 @@ def crawl():
     etf_code = request.form.get('etf_code')
     start_date = request.form.get('start_date')
     end_date = request.form.get('end_date')
+    data_type = request.form.get('data_type')
+    company = request.form.get('company')
 
-    print(start_date,end_date,etf_code)
+    print(start_date, end_date, etf_code, data_type, company)
 
     scraper = ETFScraper()
-    etf_data = scraper.scrape_fhtrust_data(etf_code, start_date, end_date)
+    if company == 'fhtrust':
+        etf_data = scraper.scrape_fhtrust_data(etf_code, start_date, end_date, data_type)
 
-    if etf_data['ok']:
-        # 如果爬取成功，顯示結果
-        return render_template('result.html', etf_data=etf_data, etf_code=etf_code)
-    else:
-        # 如果爬取失敗，顯示錯誤消息並重新導向到爬蟲頁面
-        flash(etf_data['message'], 'error')
-        return redirect('/scraper')
+        if etf_data['ok'] and data_type == 'fund_asset':
+            # 如果爬取成功，顯示結果
+            return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code)
+        elif etf_data['ok'] and data_type == 'holding_list':
+            pass
+
+        else:
+            # 如果爬取失敗，顯示錯誤消息並重新導向到爬蟲頁面
+            flash(etf_data['message'], 'error')
+            return redirect('/scraper')
 
 @app.route('/download_excel', methods=['POST'])
 def download_excel():

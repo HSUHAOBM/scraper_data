@@ -28,7 +28,45 @@
         <label for="end_date">End Date:</label>
         <input type="date" id="end_date" name="end_date" required>
         <br>
+        <label>Choose Data:</label>
+        <input type="radio" id="fund_asset" name="data_type" value="fund_asset" checked>
+        <label for="fund_asset">Fund Asset</label>
+
+        <input type="radio" id="holding_list" name="data_type" value="holding_list">
+        <label for="holding_list">Holding List</label>
+        <br>
+        <label for="company">Company:</label>
+        <select id="company" name="company">
+            <option value="yuantafhtrust">Yuanta</option>
+            <option value="fhtrust">FHTrust</option>
+        </select>
+        <br>
         <input type="submit" value="Crawl Data">
     </form>
+
+    <script>
+        // 获取当前日期
+        var currentDate = new Date();
+
+        // 计算前8天的日期
+        var eightDaysAgo = new Date();
+        eightDaysAgo.setDate(currentDate.getDate() - 8);
+
+        // 计算昨天的日期
+        var yesterday = new Date();
+        yesterday.setDate(currentDate.getDate() - 1);
+
+        // 格式化日期为 YYYY-MM-DD（适应 <input type="date"> 的格式）
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // 设置默认值
+        document.getElementById('start_date').value = formatDate(eightDaysAgo);
+        document.getElementById('end_date').value = formatDate(yesterday);
+    </script>
 </body>
 </html>
