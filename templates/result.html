@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETF Scraper Result</title>
+</head>
+<body>
+    <h1>ETF Scraper Result</h1>
+    <!-- <table border="1">
+        <tr>
+            <th></th>
+            {% for date in etf_data['日期'] %}
+                <th>{{ date }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>基金資產淨值</td>
+            {% for asset_value in etf_data['基金資產淨值'] %}
+                <td>{{ asset_value }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>基金在外流通單位數</td>
+            {% for unit_value in etf_data['基金在外流通單位數'] %}
+                <td>{{ unit_value }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>基金每單位淨值</td>
+            {% for net_value in etf_data['基金每單位淨值'] %}
+                <td>{{ net_value }}</td>
+            {% endfor %}
+        </tr>
+    </table> -->
+
+    <table border="1">
+        <tr>
+            <th>日期</th>
+            <th>基金資產淨值</th>
+            <th>基金在外流通單位數</th>
+            <th>基金每單位淨值</th>
+        </tr>
+        {% for i in range(etf_data['日期']|length) %}
+            <tr>
+                <td>{{ etf_data['日期'][i] }}</td>
+                <td>{{ etf_data['基金資產淨值'][i] }}</td>
+                <td>{{ etf_data['基金在外流通單位數'][i] }}</td>
+                <td>{{ etf_data['基金每單位淨值'][i] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Add this button to result.html -->
+<button id="downloadExcelButton">Download Excel</button>
+
+<script>
+
+    var etf_data_str = '{{ etf_data | tojson | safe }}';
+    var etf_data = JSON.parse(etf_data_str);
+    delete etf_data['ok'];
+    var etf_code = '{{ etf_code | safe }}';
+
+    document.getElementById('downloadExcelButton').addEventListener('click', function () {
+        // 使用 JavaScript 將 etf_data 送回後端
+        fetch('/download_excel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ etf_data: etf_data })
+        })
+        .then(response => {
+        // 处理文件下载
+        response.blob().then(blob => {
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = `${etf_code}_data.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        });
+    })
+    .catch(error => {
+        // 请求失败时的处理逻辑
+        alert('Error sending data to server.');
+    });
+});
+</script>
+</body>
+</html>

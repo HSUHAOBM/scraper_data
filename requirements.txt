@@ -1,0 +1,9 @@
+Flask
+Werkzeug
+pandas
+openpyxl
+selenium
+bs4
+lxml
+webdriver-manager
+xlsxwriter
