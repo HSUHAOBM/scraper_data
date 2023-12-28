@@ -65,8 +65,14 @@
         }
 
         // 设置默认值
-        document.getElementById('start_date').value = formatDate(eightDaysAgo);
-        document.getElementById('end_date').value = formatDate(yesterday);
+        // document.getElementById('start_date').value = formatDate(eightDaysAgo);
+        // document.getElementById('end_date').value = formatDate(yesterday);
+
+        // 設置 start_date 為 2023/6/28
+        document.getElementById('start_date').value = formatDate(new Date('2023-06-28'));
+
+        // 設置 end_date 為 2023/6/29
+        document.getElementById('end_date').value = formatDate(new Date('2023-06-29'));
     </script>
 </body>
 </html>
