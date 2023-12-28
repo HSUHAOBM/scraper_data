@@ -63,7 +63,7 @@
 
     document.getElementById('downloadExcelButton').addEventListener('click', function () {
         // 使用 JavaScript 將 etf_data 送回後端
-        fetch('/download_excel', {
+        fetch('/download_excel/基金總淨值', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

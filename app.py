@@ -293,17 +293,29 @@ def crawl():
             return redirect('/scraper')
 
 
-@app.route('/download_excel', methods=['POST'])
-def download_excel():
+@app.route('/download_excel/<string:report_type>', methods=['POST'])
+def download_excel(report_type):
     try:
-        # 從前端獲取 etf_data
         etf_data = request.json.get('etf_data')
-        df = pd.DataFrame({
-            '日期': etf_data['日期'],
-            '基金資產淨值': etf_data['基金資產淨值'],
-            '基金在外流通單位數': etf_data['基金在外流通單位數'],
-            '基金每單位淨值': etf_data['基金每單位淨值'],
-        })
+
+        if report_type == '持股清單':
+            # 如果要下載持股清單
+            df = pd.DataFrame({
+                '日期': etf_data['日期'],
+                '持股數量': etf_data['持股數量'],
+                '市值': etf_data['市值'],
+                '佔淨值比例': etf_data['佔淨值比例'],
+            })
+        elif report_type == '基金總淨值':
+            # 如果要下載基金總淨值
+            df = pd.DataFrame({
+                '日期': etf_data['日期'],
+                '基金資產淨值': etf_data['基金資產淨值'],
+                '基金在外流通單位數': etf_data['基金在外流通單位數'],
+                '基金每單位淨值': etf_data['基金每單位淨值'],
+            })
+        else:
+            return 'Invalid report type'
 
         # print(df)
         # '''
@@ -312,7 +324,7 @@ def download_excel():
         # 1  2023/12/04  107,799,380,136  5,803,639,000   18.57
         # '''
 
-        excel_file_path = 'sample_data.xlsx'
+        excel_file_path = f"{report_type}.xlsx"
         df.to_excel(excel_file_path, index=False)
 
         # 發送檔案到客戶端

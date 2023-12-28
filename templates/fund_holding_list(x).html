@@ -14,18 +14,20 @@
     <table border="1">
         <thead>
             <tr>
-                <th>stock</th>
-                {% for date in etf_data['日期'] %}
-                    <th>{{ date }}</th>
+                <th>Date</th>
+                {% for stock_code, stock_info in etf_data.items() %}
+                    {% if stock_code != '日期' and stock_code != 'ok' %}
+                        <th>{{ stock_code }}</th>
+                    {% endif %}
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for stock_code, stock_info in etf_data.items() %}
-                {% if stock_code != '日期' and stock_code != 'ok' %}
-                    <tr>
-                        <td>{{ stock_code }}</td>
-                        {% for i in range(etf_data['日期']|length) %}
+            {% for i in range(etf_data['日期']|length) %}
+                <tr>
+                    <td>{{ etf_data['日期'][i] }}</td>
+                    {% for stock_code, stock_info in etf_data.items() %}
+                        {% if stock_code != '日期' and stock_code != 'ok' %}
                             <td>
                                 {% if etf_data[stock_code]['持股數量'][i] %}
                                     {{ etf_data[stock_code]['持股數量'][i] }}
@@ -33,9 +35,9 @@
                                     0
                                 {% endif %}
                             </td>
-                        {% endfor %}
-                    </tr>
-                {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </tr>
             {% endfor %}
         </tbody>
     </table>
@@ -45,18 +47,20 @@
     <table border="1">
         <thead>
             <tr>
-                <th>stock</th>
-                {% for date in etf_data['日期'] %}
-                    <th>{{ date }}</th>
+                <th>Date</th>
+                {% for stock_code, stock_info in etf_data.items() %}
+                    {% if stock_code != '日期' and stock_code != 'ok' %}
+                        <th>{{ stock_code }}</th>
+                    {% endif %}
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for stock_code, stock_info in etf_data.items() %}
-                {% if stock_code != '日期' and stock_code != 'ok' %}
-                    <tr>
-                        <td>{{ stock_code }}</td>
-                        {% for i in range(etf_data['日期']|length) %}
+            {% for i in range(etf_data['日期']|length) %}
+                <tr>
+                    <td>{{ etf_data['日期'][i] }}</td>
+                    {% for stock_code, stock_info in etf_data.items() %}
+                        {% if stock_code != '日期' and stock_code != 'ok' %}
                             <td>
                                 {% if etf_data[stock_code]['市值'][i] %}
                                     {{ etf_data[stock_code]['市值'][i] }}
@@ -64,9 +68,9 @@
                                     0
                                 {% endif %}
                             </td>
-                        {% endfor %}
-                    </tr>
-                {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </tr>
             {% endfor %}
         </tbody>
     </table>
@@ -76,18 +80,20 @@
     <table border="1">
         <thead>
             <tr>
-                <th>stock</th>
-                {% for date in etf_data['日期'] %}
-                    <th>{{ date }}</th>
+                <th>Date</th>
+                {% for stock_code, stock_info in etf_data.items() %}
+                    {% if stock_code != '日期' and stock_code != 'ok' %}
+                        <th>{{ stock_code }}</th>
+                    {% endif %}
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for stock_code, stock_info in etf_data.items() %}
-                {% if stock_code != '日期' and stock_code != 'ok' %}
-                    <tr>
-                        <td>{{ stock_code }}</td>
-                        {% for i in range(etf_data['日期']|length) %}
+            {% for i in range(etf_data['日期']|length) %}
+                <tr>
+                    <td>{{ etf_data['日期'][i] }}</td>
+                    {% for stock_code, stock_info in etf_data.items() %}
+                        {% if stock_code != '日期' and stock_code != 'ok' %}
                             <td>
                                 {% if etf_data[stock_code]['佔淨值比例'][i] %}
                                     {{ etf_data[stock_code]['佔淨值比例'][i] }}
@@ -95,9 +101,9 @@
                                     0
                                 {% endif %}
                             </td>
-                        {% endfor %}
-                    </tr>
-                {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </tr>
             {% endfor %}
         </tbody>
     </table>
