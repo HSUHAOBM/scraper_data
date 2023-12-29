@@ -122,7 +122,7 @@ class ETFScraper:
                 no_data_locator = (
                     By.XPATH, '//*[@id="etfPanel3"]/div/section/div/p')
                 try:
-                    element = WebDriverWait(self.driver, 5).until(
+                    element = WebDriverWait(self.driver, 10).until(
                         EC.presence_of_element_located(no_data_locator))
                     print(f'{current_date} 無資料,{element.text}')
 
@@ -252,7 +252,7 @@ class ETFScraper:
                             data_length = len(data[category])
                             if check_data_length != data_length:
                                 fund_dict[stock_code][category] = data.get(
-                                    category, []) + [None] * (check_data_length - data_length)
+                                    category, []) + ['0'] * (check_data_length - data_length)
 
         except Exception as e:
             print(e)

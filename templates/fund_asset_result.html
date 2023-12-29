@@ -7,33 +7,6 @@
 </head>
 <body>
     <h1>ETF Scraper Result</h1>
-    <!-- <table border="1">
-        <tr>
-            <th></th>
-            {% for date in etf_data['日期'] %}
-                <th>{{ date }}</th>
-            {% endfor %}
-        </tr>
-        <tr>
-            <td>基金資產淨值</td>
-            {% for asset_value in etf_data['基金資產淨值'] %}
-                <td>{{ asset_value }}</td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <td>基金在外流通單位數</td>
-            {% for unit_value in etf_data['基金在外流通單位數'] %}
-                <td>{{ unit_value }}</td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <td>基金每單位淨值</td>
-            {% for net_value in etf_data['基金每單位淨值'] %}
-                <td>{{ net_value }}</td>
-            {% endfor %}
-        </tr>
-    </table> -->
-
     <table border="1">
         <tr>
             <th>日期</th>
@@ -51,7 +24,6 @@
         {% endfor %}
     </table>
 
-    <!-- Add this button to result.html -->
 <button id="downloadExcelButton">Download Excel</button>
 
 <script>
@@ -71,12 +43,19 @@
             body: JSON.stringify({ etf_data: etf_data })
         })
         .then(response => {
-        // 处理文件下载
+        // 文件下載
         response.blob().then(blob => {
-            var url = window.URL.createObjectURL(blob);
+            let url = window.URL.createObjectURL(blob);
+            let formattedDate = currentDate.getFullYear() +
+                            '-' + (currentDate.getMonth() + 1).toString().padStart(2, '0') +
+                            '-' + currentDate.getDate().toString().padStart(2, '0');
+
+            // 檔案名稱，加入現在日期
+            let fileName = `${etf_code}_holding_list_${formattedDate}.xlsx`;
+
             var a = document.createElement('a');
             a.href = url;
-            a.download = `${etf_code}_data.xlsx`;
+            a.download = fileName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -84,7 +63,6 @@
         });
     })
     .catch(error => {
-        // 请求失败时的处理逻辑
         alert('Error sending data to server.');
     });
 });

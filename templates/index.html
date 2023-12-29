@@ -8,34 +8,6 @@
     <title>Flask Docker Example</title>
 </head>
 <body>
-    <h1>HI</h1>
-    <h1>{{ message }}</h1>
-    基金資產(復華)
-    <form id="date_form">
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date" required>
-
-        <label for="end_date">End Date:</label>
-        <input type="date" id="end_date" name="end_date" required>
-
-        <label for="etf_code">ETF Code:</label>
-        <input type="text" id="etf_code" name="etf_code" required>
-
-        <button type="button" onclick="downloadExcel()">Download Excel</button>
-    </form>
-
-    <script>
-        function downloadExcel() {
-            // 取得使用者輸入的起始日期、結束日期和 ETF 代號
-            var start_date = document.getElementById('start_date').value;
-            var end_date = document.getElementById('end_date').value;
-            var etf_code = document.getElementById('etf_code').value;
-
-            // 使用 JavaScript 發送請求到 Flask 伺服器，傳遞起始日期、結束日期和 ETF 代號
-            var url = `/download_specific_excel?start_date=${start_date}&end_date=${end_date}&etf_code=${etf_code}`;
-            window.location.href = url;
-        }
-    </script>
 </body>
 
 

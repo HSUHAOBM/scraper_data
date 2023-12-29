@@ -37,26 +37,26 @@
         <br>
         <label for="company">Company:</label>
         <select id="company" name="company">
-            <option value="yuantafhtrust">Yuanta</option>
-            <option value="fhtrust">FHTrust</option>
+            <!-- <option value="yuantafhtrust">Yuanta</option> -->
+            <option value="fhtrust">FHTrust(復華)</option>
         </select>
         <br>
         <input type="submit" value="Crawl Data">
     </form>
 
     <script>
-        // 获取当前日期
+        // 當下日期
         var currentDate = new Date();
 
-        // 计算前8天的日期
+        // 前8天的日期
         var eightDaysAgo = new Date();
         eightDaysAgo.setDate(currentDate.getDate() - 8);
 
-        // 计算昨天的日期
+        // 昨天的日期
         var yesterday = new Date();
         yesterday.setDate(currentDate.getDate() - 1);
 
-        // 格式化日期为 YYYY-MM-DD（适应 <input type="date"> 的格式）
+        // 格式化日期为 YYYY-MM-DD（適應 <input type="date"> 的格式）
         function formatDate(date) {
             var year = date.getFullYear();
             var month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -64,15 +64,15 @@
             return `${year}-${month}-${day}`;
         }
 
-        // 设置默认值
-        // document.getElementById('start_date').value = formatDate(eightDaysAgo);
-        // document.getElementById('end_date').value = formatDate(yesterday);
+        // 預設值
+        document.getElementById('start_date').value = formatDate(eightDaysAgo);
+        document.getElementById('end_date').value = formatDate(yesterday);
 
-        // 設置 start_date 為 2023/6/28
-        document.getElementById('start_date').value = formatDate(new Date('2023-06-28'));
+        // // 設置 start_date 為 2023/6/28
+        // document.getElementById('start_date').value = formatDate(new Date('2023-06-28'));
 
-        // 設置 end_date 為 2023/6/29
-        document.getElementById('end_date').value = formatDate(new Date('2023-06-29'));
+        // // 設置 end_date 為 2023/6/29
+        // document.getElementById('end_date').value = formatDate(new Date('2023-06-29'));
     </script>
 </body>
 </html>
