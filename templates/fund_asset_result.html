@@ -27,6 +27,7 @@
 <button id="downloadExcelButton">Download Excel</button>
 
 <script>
+    let check_function_end = true;
 
     var etf_data_str = '{{ etf_data | tojson | safe }}';
     var etf_data = JSON.parse(etf_data_str);
@@ -34,39 +35,46 @@
     var etf_code = '{{ etf_code | safe }}';
 
     document.getElementById('downloadExcelButton').addEventListener('click', function () {
-        // 使用 JavaScript 將 etf_data 送回後端
-        fetch('/download_excel/基金總淨值', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ etf_data: etf_data })
-        })
-        .then(response => {
-        // 文件下載
-        response.blob().then(blob => {
-            let url = window.URL.createObjectURL(blob);
-            let currentDate = new Date();
-            let formattedDate = currentDate.getFullYear() +
-                            '-' + (currentDate.getMonth() + 1).toString().padStart(2, '0') +
-                            '-' + currentDate.getDate().toString().padStart(2, '0');
+        if (check_function_end) {
+            check_function_end = false;
 
-            // 檔案名稱，加入現在日期
-            let fileName = `${etf_code}_asset_${formattedDate}.xlsx`;
+            // 使用 JavaScript 將 etf_data 送回後端
+            fetch('/download_excel/基金總淨值', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ etf_data: etf_data })
+            })
+            .then(response => {
+                // 文件下載
+                response.blob().then(blob => {
+                    let url = window.URL.createObjectURL(blob);
+                    let currentDate = new Date();
+                    let formattedDate = currentDate.getFullYear() +
+                                '-' + (currentDate.getMonth() + 1).toString().padStart(2, '0') +
+                                '-' + currentDate.getDate().toString().padStart(2, '0');
 
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        });
-    })
-    .catch(error => {
-        alert('Error sending data to server.');
+                    // 檔案名稱，加入現在日期
+                    let fileName = `${etf_code}_asset_${formattedDate}.xlsx`;
+
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                });
+            })
+            .catch(error => {
+                alert('Error sending data to server.');
+            })
+            .finally(() => {
+                check_function_end = true;
+            });
+        }
     });
-});
 </script>
 </body>
 </html>

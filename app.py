@@ -26,6 +26,11 @@ def crawl():
     end_date = request.form.get('end_date')
     data_type = request.form.get('data_type')
     company = request.form.get('company')
+    password = request.form.get('password')
+
+    if password != '6h6EEWXt7GU8':
+        flash('無權限操作', 'error')
+        return redirect('/scraper')
 
     print(start_date, end_date, etf_code, data_type, company)
 
@@ -49,6 +54,8 @@ def crawl():
             return redirect('/scraper')
 
 # excel 下載
+
+
 @app.route('/download_excel/<string:report_type>', methods=['POST'])
 def download_excel(report_type):
     try:
@@ -102,6 +109,7 @@ def download_excel(report_type):
 
     except Exception as e:
         return jsonify({'ok': False, 'message': str(e)})
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
