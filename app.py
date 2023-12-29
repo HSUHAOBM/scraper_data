@@ -298,14 +298,31 @@ def download_excel(report_type):
     try:
         etf_data = request.json.get('etf_data')
 
+        excel_file_path = f"{report_type}.xlsx"
+
         if report_type == '持股清單':
-            # 如果要下載持股清單
-            df = pd.DataFrame({
-                '日期': etf_data['日期'],
-                '持股數量': etf_data['持股數量'],
-                '市值': etf_data['市值'],
-                '佔淨值比例': etf_data['佔淨值比例'],
-            })
+            # 創建一個字典，用於存放每個分頁的 DataFrame
+            dataframes = {}
+
+            # 遍歷每個分頁
+            for category in ['持股數量', '市值', '佔淨值比例']:
+                # 創建 DataFrame
+                df = pd.DataFrame(etf_data['日期'], columns=['Date'])
+
+                # 遍歷每支股票
+                for stock_code, data in etf_data.items():
+                    if stock_code != '日期':
+                        stock_data = data[category]
+                        df[stock_code] = stock_data
+
+                # 將 DataFrame 寫入 Excel 文件，分頁名稱為分類名稱
+                excel_sheet_name = category
+                dataframes[category] = df
+            # 對應 3 個分頁資料寫入
+            with pd.ExcelWriter(excel_file_path, engine='xlsxwriter') as writer:
+                for sheet_name, data in dataframes.items():
+                    data.to_excel(writer, sheet_name=sheet_name, index=False)
+
         elif report_type == '基金總淨值':
             # 如果要下載基金總淨值
             df = pd.DataFrame({
@@ -314,18 +331,10 @@ def download_excel(report_type):
                 '基金在外流通單位數': etf_data['基金在外流通單位數'],
                 '基金每單位淨值': etf_data['基金每單位淨值'],
             })
+            df.to_excel(excel_file_path, index=False)
+
         else:
             return 'Invalid report type'
-
-        # print(df)
-        # '''
-        #  日期           基金資產淨值      基金在外流通單位數 基金每單位淨值
-        # 0  2023/12/01  106,994,957,274  5,802,639,000   18.44
-        # 1  2023/12/04  107,799,380,136  5,803,639,000   18.57
-        # '''
-
-        excel_file_path = f"{report_type}.xlsx"
-        df.to_excel(excel_file_path, index=False)
 
         # 發送檔案到客戶端
         response = send_file(excel_file_path, as_attachment=True)

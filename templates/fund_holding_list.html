@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Fund Holding List - {{ etf_code }}</h1>
-
+    <button id="downloadExcelButton">Download Excel</button>
     <!-- 持股數量表格 -->
     <h2>持股數量</h2>
     <table border="1">
@@ -101,5 +101,41 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <script>
+
+        var etf_data_str = '{{ etf_data | tojson | safe }}';
+        var etf_data = JSON.parse(etf_data_str);
+        delete etf_data['ok'];
+        var etf_code = '{{ etf_code | safe }}';
+
+        document.getElementById('downloadExcelButton').addEventListener('click', function () {
+            // 使用 JavaScript 將 etf_data 送回後端
+            fetch('/download_excel/持股清單', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ etf_data: etf_data })
+            })
+            .then(response => {
+            // 处理文件下载
+            response.blob().then(blob => {
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = `${etf_code}_holding_list.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            });
+        })
+        .catch(error => {
+            // 请求失败时的处理逻辑
+            alert('Error sending data to server.');
+        });
+    });
+    </script>
 </body>
 </html>
