@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   web:
-    image: my-flask-app-image
+    image: flask-image
     build: .
-    container_name: flask-app
+    container_name: flask-scraper-app
     ports:
       - "5000:5000"
     volumes:
