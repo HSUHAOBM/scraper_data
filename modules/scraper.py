@@ -37,6 +37,8 @@ class ETFScraper:
         if self.driver:
             self.driver.quit()
 
+
+class Fhtrust(ETFScraper):
     # 復華 fhtrust
     def scrape_fhtrust_data(self, etf_code, start_date_str, end_date_str, data_type):
 
@@ -122,7 +124,7 @@ class ETFScraper:
                 no_data_locator = (
                     By.XPATH, '//*[@id="etfPanel3"]/div/section/div/p')
                 try:
-                    element = WebDriverWait(self.driver, 10).until(
+                    element = WebDriverWait(self.driver, 12).until(
                         EC.presence_of_element_located(no_data_locator))
                     print(f'{current_date} 無資料,{element.text}')
 

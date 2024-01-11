@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, render_template, sen
 import pandas as pd
 import os
 from datetime import datetime
-from modules.scraper import ETFScraper
+from modules.scraper import ETFScraper, Fhtrust
 
 app = Flask(__name__)
 
@@ -34,7 +34,7 @@ def crawl():
 
     print(start_date, end_date, etf_code, data_type, company)
 
-    scraper = ETFScraper()
+    scraper = Fhtrust()
     if company == 'fhtrust':
         etf_data = scraper.scrape_fhtrust_data(
             etf_code, start_date, end_date, data_type)
