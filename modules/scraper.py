@@ -40,7 +40,7 @@ class ETFScraper:
 
 class Fhtrust(ETFScraper):
     # 復華 fhtrust
-    def scrape_fhtrust_data(self, etf_code, start_date_str, end_date_str, data_type):
+    def scrape_data(self, etf_code, start_date_str, end_date_str, data_type):
 
         url = 'https://www.fhtrust.com.tw/ETF/etf_list'
         self.driver.get(url=url)
@@ -265,3 +265,5 @@ class Fhtrust(ETFScraper):
             pass
 
         return fund_dict
+
+

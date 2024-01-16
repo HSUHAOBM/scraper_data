@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify, render_template, render_template, sen
 import pandas as pd
 import os
 from datetime import datetime
-from modules.scraper import ETFScraper, Fhtrust
+from modules.scraper import Fhtrust
+from modules.api_client import YuantaETFManager
 
 app = Flask(__name__)
 
@@ -33,20 +34,27 @@ def crawl():
         return redirect('/scraper')
 
     print(start_date, end_date, etf_code, data_type, company)
+    if company == 'yuanta':
+        # etf_code = "00878"
+        etf_manager = YuantaETFManager(etf_code)
+        if etf_manager.fund_code:
+            # 輸入的日期範圍字串
+            # start_date_str = "2023/12/01"
+            # end_date_str = "2024/01/05"
+            etf_data = etf_manager.get_etf_assets(
+                start_date, end_date)
+        if etf_data['ok'] and data_type == 'fund_asset':
+            return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code)
 
-    scraper = Fhtrust()
     if company == 'fhtrust':
-        etf_data = scraper.scrape_fhtrust_data(
+        scraper = Fhtrust()
+        etf_data = scraper.scrape_data(
             etf_code, start_date, end_date, data_type)
 
         if etf_data['ok'] and data_type == 'fund_asset':
             return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code)
         elif etf_data['ok'] and data_type == 'holding_list':
             return render_template('fund_holding_list.html', etf_data=etf_data, etf_code=etf_code)
-
-        # if data_type == 'holding_list':
-        #     etf_data_test = test_data
-        #     return render_template('fund_holding_list.html', etf_data=etf_data_test, etf_code=etf_code)
 
         else:
             # 如果爬取失敗，顯示錯誤消息並重新導向到爬蟲頁面
