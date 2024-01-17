@@ -30,6 +30,7 @@ def crawl():
     print(start_date, end_date, etf_code, data_type, company)
     # 元大
     if company == 'yuanta':
+        print('in 元大')
         etf_manager = YuantaETFManager(etf_code)
         if etf_manager.fund_code:
             etf_data = etf_manager.get_etf_assets(
@@ -39,19 +40,19 @@ def crawl():
         else:
             flash('無此代號', 'error')
             return redirect('/scraper')
-    # 復華
-    if company == 'fhtrust':
-        scraper = Fhtrust()
-        etf_data = scraper.scrape_data(
-            etf_code, start_date, end_date, data_type)
+    # # 復華
+    # if company == 'fhtrust':
+    #     scraper = Fhtrust()
+    #     etf_data = scraper.scrape_data(
+    #         etf_code, start_date, end_date, data_type)
 
-        if etf_data['ok'] and data_type == 'fund_asset':
-            return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code, company=company)
-        elif etf_data['ok'] and data_type == 'holding_list':
-            return render_template('fund_holding_list.html', etf_data=etf_data, etf_code=etf_code, company=company)
-        else:
-            flash(etf_data['message'], 'error')
-            return redirect('/scraper')
+    #     if etf_data['ok'] and data_type == 'fund_asset':
+    #         return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code, company=company)
+    #     elif etf_data['ok'] and data_type == 'holding_list':
+    #         return render_template('fund_holding_list.html', etf_data=etf_data, etf_code=etf_code, company=company)
+    #     else:
+    #         flash(etf_data['message'], 'error')
+    #         return redirect('/scraper')
 
 
 # excel 下載
