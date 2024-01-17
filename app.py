@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, render_template, send_file, flash, redirect
 import pandas as pd
 import os
-from modules.scraper import Fhtrust
+# from modules.scraper import Fhtrust
 from modules.api_client import YuantaETFManager
 
 app = Flask(__name__)

@@ -98,18 +98,18 @@ class YuantaETFManager():
             return None
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    etf_code = "00878"
-    etf_manager = YuantaETFManager(etf_code)
-    if etf_manager.fund_code:
-        # 輸入的日期範圍字串
-        start_date_str = "2023/12/01"
-        end_date_str = "2024/01/05"
-        fund_dict = etf_manager.get_etf_assets(
-            start_date_str, end_date_str)
-        if fund_dict:
-            print(
-                f"ETF Assets for {etf_code} from {start_date_str} to {end_date_str}: {fund_dict}")
-    else:
-        print('查無此etf')
+#     etf_code = "00878"
+#     etf_manager = YuantaETFManager(etf_code)
+#     if etf_manager.fund_code:
+#         # 輸入的日期範圍字串
+#         start_date_str = "2023/12/01"
+#         end_date_str = "2024/01/05"
+#         fund_dict = etf_manager.get_etf_assets(
+#             start_date_str, end_date_str)
+#         if fund_dict:
+#             print(
+#                 f"ETF Assets for {etf_code} from {start_date_str} to {end_date_str}: {fund_dict}")
+#     else:
+#         print('查無此etf')
