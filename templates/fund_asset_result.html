@@ -31,10 +31,10 @@
 <script>
     let check_function_end = true;
 
-    var etf_data_str = '{{ etf_data | tojson | safe }}';
-    var etf_data = JSON.parse(etf_data_str);
+    let etf_data_str = '{{ etf_data | tojson | safe }}';
+    let etf_data = JSON.parse(etf_data_str);
     delete etf_data['ok'];
-    var etf_code = '{{ etf_code | safe }}';
+    let etf_code = '{{ etf_code | safe }}';
 
     document.getElementById('downloadExcelButton').addEventListener('click', function () {
         if (check_function_end) {

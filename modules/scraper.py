@@ -168,15 +168,6 @@ class Fhtrust(ETFScraper):
                             '基金在外流通單位數', []).append(unit_value)
                         fund_dict.setdefault('基金每單位淨值', []).append(net_value)
 
-                    # 持股名單
-                    # '''
-                    # holding_list_dict = {
-                    # '日期': ['2023/12/25', '2023/12/26'],
-                    # '2454-聯發科技': {'持股數量': ['6,156,000', '6,156,000'], '市值': ['6,094,440,000', '6,094,440,000'], '佔淨值比例': ['5.324%', '5.324%']},
-                    # '2385-群光電子': {'持股數量': ['30,486,000', '30,486,000'], '市值': ['5,319,807,000', '5,319,807,000'], '佔淨值比例': ['4.647%', '4.647%']}
-                    # # 其他股票以此類推
-                    # }
-                    # '''
                     if data_type == 'holding_list':
                         # 定位表格
                         holding_rows_xpath = '//*[@id="etfPanel3"]/div/section[1]/div/div[3]/div/div/table/tbody/tr'
@@ -265,8 +256,6 @@ class Fhtrust(ETFScraper):
             print(e)
             return {'ok': False, 'message': str(e)}
         finally:
-            # # 關閉瀏覽器視窗
             self.driver.quit()
-            pass
 
         return fund_dict

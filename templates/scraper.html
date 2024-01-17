@@ -43,43 +43,34 @@
         <br>
         <!-- 新增密碼欄位 -->
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" value="6h6EEWXt7GU8" required>
+            <input type="password" id="password" name="password" value="" required>
         <br>
         <input type="submit" value="Crawl Data">
     </form>
 
     <script>
         // 當下日期
-        var currentDate = new Date();
+        let currentDate = new Date();
 
         // 前8天的日期
-        var eightDaysAgo = new Date();
+        let eightDaysAgo = new Date();
         eightDaysAgo.setDate(currentDate.getDate() - 8);
 
         // 昨天的日期
-        var yesterday = new Date();
+        let yesterday = new Date();
         yesterday.setDate(currentDate.getDate() - 1);
 
         // 格式化日期为 YYYY-MM-DD（適應 <input type="date"> 的格式）
         function formatDate(date) {
-            var year = date.getFullYear();
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var day = date.getDate().toString().padStart(2, '0');
+            let year = date.getFullYear();
+            let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
             return `${year}-${month}-${day}`;
         }
 
         // 預設值
         document.getElementById('start_date').value = formatDate(eightDaysAgo);
         document.getElementById('end_date').value = formatDate(yesterday);
-
-        document.getElementById('start_date').value = formatDate(new Date('2023-11-20'));
-
-        document.getElementById('end_date').value = formatDate(new Date('2023-11-23'));
-                // 設置 start_date 為 2023/6/28
-        document.getElementById('start_date').value = formatDate(new Date('2023-06-28'));
-
-        // 設置 end_date 為 2023/6/29
-        document.getElementById('end_date').value = formatDate(new Date('2023-06-29'));
     </script>
 </body>
 </html>

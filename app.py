@@ -29,6 +29,7 @@ def crawl():
         return redirect('/scraper')
 
     print(start_date, end_date, etf_code, data_type, company)
+
     # 元大
     if company == 'yuanta':
         etf_manager = YuantaETFManager(etf_code)
