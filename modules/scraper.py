@@ -113,18 +113,17 @@ class Fhtrust(ETFScraper):
                 self.driver.execute_script("arguments[0].value = '{}';".format(
                     current_date.strftime("%Y/%m/%d")), date_input_element)
 
-
                 # 搜尋指定日期
                 search_button_xpath = '//*[@id="etfPanel3"]/section[1]/div/div/div[2]/div/button'
                 search_button_element = WebDriverWait(self.driver, 10).until(
                     EC.element_to_be_clickable((By.XPATH, search_button_xpath))
                 )
 
-                print('點擊搜尋日期並暫停1.5秒')
-                time.sleep(1.5)
-
                 actions.move_to_element(
                     search_button_element).click().perform()
+
+                print('點擊搜尋日期並暫停2.5秒')
+                time.sleep(2.5)
 
                 no_data_locator = (
                     By.XPATH, '//*[@id="etfPanel3"]/div/section/div/p')
