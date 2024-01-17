@@ -53,9 +53,8 @@ def crawl():
             flash(etf_data['message'], 'error')
             return redirect('/scraper')
 
+
 # excel 下載
-
-
 @app.route('/download_excel/<string:report_type>', methods=['POST'])
 def download_excel(report_type):
     try:
