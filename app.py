@@ -68,11 +68,12 @@ def crawl():
 def download_excel(report_type):
     try:
         etf_data = request.json.get('etf_data')
-        has_content = json.loads(request.json.get('has_content'))
         excel_file_path = f"{report_type}.xlsx"
 
         if report_type == '持股清單':
-            # 創建一個字典，用於存放每個分頁的 DataFrame
+
+            has_content = json.loads(request.json.get('has_content'))
+
             dataframes = {}
 
             # 遍歷每個分頁
