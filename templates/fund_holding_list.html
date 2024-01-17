@@ -7,9 +7,12 @@
     <title>Fund Holding List</title>
 </head>
 <body>
-    <h1>Fund Holding List - {{ etf_code }}</h1>
+    <h1>{{ company | safe }} ( {{ etf_code | safe }} )</h1>
+    <h1>Fund Holding List</h1>
     <button id="downloadExcelButton">Download Excel</button>
+
     <!-- 持股數量表格 -->
+    {% if '持股數量' in has_content %}
     <h2>持股數量</h2>
     <table border="1">
         <thead>
@@ -39,8 +42,11 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
+
 
     <!-- 市值表格 -->
+    {% if '市值' in has_content %}
     <h2>市值</h2>
     <table border="1">
         <thead>
@@ -70,8 +76,10 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 
     <!-- 佔淨值比例表格 -->
+    {% if '佔淨值比例' in has_content %}
     <h2>佔淨值比例</h2>
     <table border="1">
         <thead>
@@ -101,14 +109,16 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 
     <script>
         let check_function_end = true;
 
-        var etf_data_str = '{{ etf_data | tojson | safe }}';
-        var etf_data = JSON.parse(etf_data_str);
+        let etf_data_str = '{{ etf_data | tojson | safe }}';
+        let etf_data = JSON.parse(etf_data_str);
         delete etf_data['ok'];
-        var etf_code = '{{ etf_code | safe }}';
+        let etf_code = '{{ etf_code | safe }}';
+        let has_content = '{{ has_content | tojson | safe }}';
 
         document.getElementById('downloadExcelButton').addEventListener('click', function () {
             // 使用 JavaScript 將 etf_data 送回後端
@@ -120,7 +130,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ etf_data: etf_data })
+                    body: JSON.stringify({ etf_data: etf_data, has_content: has_content })
                 })
                 .then(response => {
                 // 文件下载

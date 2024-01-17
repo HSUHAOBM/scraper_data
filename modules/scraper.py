@@ -86,7 +86,7 @@ class Fhtrust(ETFScraper):
                 EC.visibility_of_element_located((By.XPATH, date_input_xpath))
             )
 
-            time.sleep(1)
+            time.sleep(3)
             fund_dict = {
                 'ok': True,
                 '日期': [],
@@ -113,11 +113,16 @@ class Fhtrust(ETFScraper):
                 self.driver.execute_script("arguments[0].value = '{}';".format(
                     current_date.strftime("%Y/%m/%d")), date_input_element)
 
+
                 # 搜尋指定日期
                 search_button_xpath = '//*[@id="etfPanel3"]/section[1]/div/div/div[2]/div/button'
                 search_button_element = WebDriverWait(self.driver, 10).until(
                     EC.element_to_be_clickable((By.XPATH, search_button_xpath))
                 )
+
+                print('點擊搜尋日期並暫停1.5秒')
+                time.sleep(1.5)
+
                 actions.move_to_element(
                     search_button_element).click().perform()
 
@@ -222,15 +227,15 @@ class Fhtrust(ETFScraper):
                                 fund_dict.setdefault(
                                     f'{stock_code}-{stock_name}', {'持股數量': [], '市值': [], '佔淨值比例': []})
 
-                                # 跑到第幾天, 而需要補的 None 次數
+                                # 跑到第幾天, 而需要補的 0 次數
                                 day_length = len(fund_dict['日期']) - 1
                                 if day_length > 0:
                                     fund_dict[f'{stock_code}-{stock_name}']['持股數量'] = [
-                                        None] * day_length
+                                        0] * day_length
                                     fund_dict[f'{stock_code}-{stock_name}']['市值'] = [
-                                        None] * day_length
+                                        0] * day_length
                                     fund_dict[f'{stock_code}-{stock_name}']['佔淨值比例'] = [
-                                        None] * day_length
+                                        0] * day_length
 
                                 etf_holding_list.append(stock_code)
 
@@ -265,5 +270,3 @@ class Fhtrust(ETFScraper):
             pass
 
         return fund_dict
-
-
