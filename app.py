@@ -1,18 +1,12 @@
-from flask import Flask, request, jsonify, render_template, render_template, send_file, flash, redirect, make_response
+from flask import Flask, request, jsonify, render_template, render_template, send_file, flash, redirect
 import pandas as pd
 import os
-from datetime import datetime
 from modules.scraper import Fhtrust
 from modules.api_client import YuantaETFManager
 
 app = Flask(__name__)
 
-app.secret_key = 'your_secret_key'
-
-
-# @app.route('/')
-# def home():
-#     return render_template('index.html', message='Hello from Docker and Flask!')
+app.secret_key = '05fb22e618796839264428ecd52995eecd451d2a9ac26b6e'
 
 
 @app.route('/scraper')
@@ -34,30 +28,28 @@ def crawl():
         return redirect('/scraper')
 
     print(start_date, end_date, etf_code, data_type, company)
+    # 元大
     if company == 'yuanta':
-        # etf_code = "00878"
         etf_manager = YuantaETFManager(etf_code)
         if etf_manager.fund_code:
-            # 輸入的日期範圍字串
-            # start_date_str = "2023/12/01"
-            # end_date_str = "2024/01/05"
             etf_data = etf_manager.get_etf_assets(
                 start_date, end_date)
-        if etf_data['ok'] and data_type == 'fund_asset':
-            return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code)
-
+            if etf_data['ok'] and data_type == 'fund_asset':
+                return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code, company=company)
+        else:
+            flash('無此代號', 'error')
+            return redirect('/scraper')
+    # 復華
     if company == 'fhtrust':
         scraper = Fhtrust()
         etf_data = scraper.scrape_data(
             etf_code, start_date, end_date, data_type)
 
         if etf_data['ok'] and data_type == 'fund_asset':
-            return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code)
+            return render_template('fund_asset_result.html', etf_data=etf_data, etf_code=etf_code, company=company)
         elif etf_data['ok'] and data_type == 'holding_list':
-            return render_template('fund_holding_list.html', etf_data=etf_data, etf_code=etf_code)
-
+            return render_template('fund_holding_list.html', etf_data=etf_data, etf_code=etf_code, company=company)
         else:
-            # 如果爬取失敗，顯示錯誤消息並重新導向到爬蟲頁面
             flash(etf_data['message'], 'error')
             return redirect('/scraper')
 
@@ -112,7 +104,6 @@ def download_excel(report_type):
 
         # 刪除伺服器本地的檔案
         os.remove(excel_file_path)
-
         return response
 
     except Exception as e:

@@ -31,7 +31,6 @@ class YuantaETFManager():
 
     # etf 的單日規模查詢
     def get_etf_assets_for_date(self, query_date):
-        # url = f"{self.base_url}/ETF/GetETFAssets?FundCode={etf_code}&SearchDate={query_date}"
         url = f"{self.base_url}ETF/GetETFAssets"
         try:
             params = {'FundCode': self.fund_code,
@@ -44,7 +43,6 @@ class YuantaETFManager():
             if assets_data['success']:
                 return assets_data['result']
             else:
-                # print("Invalid response format. 'success' is False.")
                 return None
         except requests.exceptions.HTTPError as err:
             print(f"Error fetching ETF assets: {err}")
@@ -52,10 +50,6 @@ class YuantaETFManager():
 
     # etf 的日期範圍規模查詢
     def get_etf_assets(self, start_date_str, end_date_str):
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
-        end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
-
-        # 初始化共用的字典
         fund_dict = {
             'ok': True,
             '日期': [],
@@ -64,12 +58,14 @@ class YuantaETFManager():
             '基金每單位淨值': []
         }
 
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+
         # 使用 while 迴圈處理日期範圍
         current_date = start_date
         while current_date <= end_date:
             query_date = current_date.strftime("%Y/%m/%d")
 
-            # 獲取 ETF 資產
             etf_assets = self.get_etf_assets_for_date(query_date)
             if etf_assets:
                 # 將數據存入字典
