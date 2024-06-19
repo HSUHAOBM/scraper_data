@@ -18,7 +18,7 @@
     {% endwith %}
 
     <h1>ETF Scraper</h1>
-    <form action="/crawl" method="post">
+    <form id="etfForm" action="/crawl" method="post">
         <label for="etf_code">ETF Code:</label>
         <input type="text" id="etf_code" name="etf_code" required>
         <br>
@@ -45,7 +45,7 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" value="" required>
         <br>
-        <input type="submit" value="Crawl Data">
+        <input type="submit" id="submitButton" value="爬取資料">
     </form>
 
     <script>
@@ -71,6 +71,14 @@
         // 預設值
         document.getElementById('start_date').value = formatDate(eightDaysAgo);
         document.getElementById('end_date').value = formatDate(yesterday);
+
+        // 防止表單連續提交
+        document.getElementById('etfForm').addEventListener('submit', function(event) {
+            let submitButton = document.getElementById('submitButton');
+            submitButton.disabled = true;
+            submitButton.value = "提交中...";
+            document.getElementById('etfForm').classList.add('submitting');
+        });
     </script>
 </body>
 </html>
