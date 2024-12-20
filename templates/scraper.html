@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ETF Scraper</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -17,37 +19,48 @@
         {% endif %}
     {% endwith %}
 
-    <h1>ETF Scraper</h1>
-    <form id="etfForm" action="/crawl" method="post">
-        <label for="etf_code">ETF Code:</label>
-        <input type="text" id="etf_code" name="etf_code" required>
-        <br>
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date" required>
-        <br>
-        <label for="end_date">End Date:</label>
-        <input type="date" id="end_date" name="end_date" required>
-        <br>
-        <label>Choose Data:</label>
-        <input type="radio" id="fund_asset" name="data_type" value="fund_asset" checked>
-        <label for="fund_asset">Fund Asset</label>
-
-        <input type="radio" id="holding_list" name="data_type" value="holding_list">
-        <label for="holding_list">Holding List</label>
-        <br>
-        <label for="company">Company:</label>
-        <select id="company" name="company">
-            <option value="yuanta">Yuanta(元大)</option>
-            <option value="fhtrust">FHTrust(復華)</option>
-        </select>
-        <br>
-        <!-- 新增密碼欄位 -->
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" value="" required>
-        <br>
-        <input type="submit" id="submitButton" value="爬取資料">
-    </form>
-
+        <h1 class="mt-5">ETF Scraper</h1>
+        <form id="etfForm" action="/crawl" method="post">
+            <div class="form-group">
+                <label for="etf_code">ETF Code:</label>
+                <input type="text" class="form-control" id="etf_code" name="etf_code" required>
+            </div>
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <div class="form-group">
+                <label>Choose Data:</label>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="fund_asset" name="data_type" value="fund_asset" checked>
+                    <label class="form-check-label" for="fund_asset">Fund Asset</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="holding_list" name="data_type" value="holding_list">
+                    <label class="form-check-label" for="holding_list">Holding List</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="company">Company:</label>
+                <select class="form-control" id="company" name="company">
+                    <option value="yuanta">Yuanta(元大)</option>
+                    <option value="fhtrust">FHTrust(復華)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">爬取資料</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         // 當下日期
         let currentDate = new Date();
