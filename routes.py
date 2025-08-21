@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template, flash, redirect, send_file
 from modules.web_scraper import Fhtrust
-from modules.api_data_fetcher import YuantaETFManager
+from modules.api_data_fetcher import CathayETFManager
 import os
 import pandas as pd
 import json
@@ -29,9 +29,9 @@ def crawl():
 
         print(start_date, end_date, etf_code, data_type, company)
 
-        # 元大
-        if company == 'yuanta':
-            etf_manager = YuantaETFManager(etf_code)
+        # 國泰
+        if company == 'cathay':
+            etf_manager = CathayETFManager(etf_code)
             if etf_manager.fund_code:
                 if data_type == 'fund_asset':
                     etf_data = etf_manager.get_etf_assets(start_date, end_date)

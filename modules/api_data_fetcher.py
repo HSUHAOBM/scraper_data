@@ -2,7 +2,7 @@ import requests
 from datetime import datetime, timedelta
 
 
-class YuantaETFManager():
+class CathayETFManager():
     def __init__(self, etf_code, base_url="https://cwapi.cathaysite.com.tw/api/"):
         self.base_url = base_url
         self.etf_code = etf_code
